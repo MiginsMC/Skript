@@ -29,7 +29,7 @@ import ch.njol.skript.doc.Name;
 import ch.njol.skript.doc.Since;
 
 @Name("Is Charged")
-@Description("Checks if a creeper is charged (powered).")
+@Description("Checks whether a creeper is charged (powered).")
 @Examples({"if the last spawned creeper is charged:",
 			"\tbroadcast \"A charged creeper is at %location of last spawned creeper%\""})
 @Since("2.5")

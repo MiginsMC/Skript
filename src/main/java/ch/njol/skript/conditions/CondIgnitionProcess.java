@@ -34,7 +34,7 @@ import ch.njol.skript.lang.SkriptParser.ParseResult;
 import ch.njol.util.Kleenean;
 
 @Name("Ignition Process")
-@Description("Checks if a creeper is going to explode.")
+@Description("Checks whether a creeper is going to explode.")
 @Examples({"if the last spawned creeper is going to explode:",
 			"\tloop all players in radius 3 of the last spawned creeper",
 			"\t\tsend \"RUN!!!\" to the loop-player"})

@@ -28,7 +28,7 @@ import ch.njol.skript.doc.Name;
 import ch.njol.skript.doc.Since;
 
 @Name("Can Fly")
-@Description("Whether a player is allowed to fly.")
+@Description("Checks whether a player is allowed to fly.")
 @Examples("player can fly")
 @Since("2.3")
 

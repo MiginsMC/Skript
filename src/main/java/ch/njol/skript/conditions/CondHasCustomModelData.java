@@ -31,7 +31,7 @@ import ch.njol.skript.doc.RequiredPlugins;
 import ch.njol.skript.doc.Since;
 
 @Name("Has Custom Model Data")
-@Description("Check if an item has a custom model data tag")
+@Description("Check whether an item has a custom model data tag.")
 @Examples("player's tool has custom model data")
 @RequiredPlugins("1.14+")
 @Since("2.5")
