@@ -43,7 +43,7 @@ public class EvtPressurePlate extends SkriptEvent {
 				"[step[ping] on] [a] [pressure] plate",
 				"(trip|[step[ping] on] [a] tripwire)")
 				.description("Called when a <i>player</i> steps on a pressure plate or tripwire respectively.")
-				.examples("on step on pressure plate:")
+				.examples("on step on pressure plate:", "\tpush player upwards with speed 5", "\tsend \"WOOSH!!!\"")
 				.since("1.0 (pressure plate), 1.4.4 (tripwire)");
 	}
 	

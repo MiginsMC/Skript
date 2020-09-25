@@ -166,65 +166,65 @@ public class SimpleEvents {
 				.since("1.0");
 		Skript.registerEvent("Chunk Load", SimpleEvent.class, ChunkLoadEvent.class, "chunk load[ing]")
 				.description("Called when a chunk loads. The chunk might or might not contain mobs when it's loaded.")
-				.examples("on chunk load:")
+				.examples("on chunk load:", "\tbroadcast \"A chunk has been loaded!\"")
 				.since("1.0");
 		Skript.registerEvent("Chunk Generate", SimpleEvent.class, ChunkPopulateEvent.class, "chunk (generat|populat)(e|ing)")
 				.description("Called after a new chunk was generated.")
-				.examples("on chunk generate:")
+				.examples("on chunk generate:", "\tbroadcast \"%event-chunk% had been generated!!\"")
 				.since("1.0");
 		Skript.registerEvent("Chunk Unload", SimpleEvent.class, ChunkUnloadEvent.class, "chunk unload[ing]")
 				.description("Called when a chunk is unloaded due to not being near any player.")
-				.examples("on chunk unload:")
+				.examples("on chunk unload:", "\tremove 1 from {loadedchunks}")
 				.since("1.0");
 		Skript.registerEvent("Creeper Power", SimpleEvent.class, CreeperPowerEvent.class, "creeper power")
 				.description("Called when a creeper is struck by lighting and gets powered. Cancel the event to prevent the creeper from being powered.")
-				.examples("on creeper power:")
+				.examples("on creeper power:", "\tif {nopoweredcreepers} is true:", "\t\tcancel event")
 				.since("1.0");
 		Skript.registerEvent("Zombie Break Door", SimpleEvent.class, EntityBreakDoorEvent.class, "zombie break[ing] [a] [wood[en]] door")
 				.description("Called when a zombie is done breaking a wooden door. Can be cancelled to prevent the zombie from breaking the door.")
-				.examples("on zombie breaking a wood door:")
+				.examples("on zombie breaking a wood door:", "\tcancel event", "\tstrike lightning at event-block")
 				.since("1.0");
 		Skript.registerEvent("Combust", SimpleEvent.class, EntityCombustEvent.class, "combust[ing]")
 				.description("Called when an entity is set on fire, e.g. by fire or lava, a fireball, or by standing in direct sunlight (zombies, skeletons).")
-				.examples("on combust:")
+				.examples("on combust:", "\tcancel event")
 				.since("1.0");
 		Skript.registerEvent("Explode", SimpleEvent.class, EntityExplodeEvent.class, "explo(d(e|ing)|sion)")
 				.description("Called when an entity (a primed TNT or a creeper) explodes.")
-				.examples("on explosion:")
+				.examples("on explosion:", "\tbroadcast \"boom boom\"")
 				.since("1.0");
 //		Skript.registerEvent(SimpleEvent.class, EntityInteractEvent.class, "interact");// = entity interacts with block, e.g. endermen?; player -> PlayerInteractEvent // likely tripwires, pressure plates, etc.
 		Skript.registerEvent("Portal Enter", SimpleEvent.class, EntityPortalEnterEvent.class, "portal enter[ing]", "entering [a] portal")
 				.description("Called when a player enters a nether portal and the swirly animation starts to play.")
-				.examples("on portal enter:")
+				.examples("on portal enter:", "\tsend \"have fun!\"")
 				.since("1.0");
 		Skript.registerEvent("Heal", SimpleEvent.class, EntityRegainHealthEvent.class, "heal[ing]")
 				.description("Called when an entity is healed, e.g. by eating (players), being fed (pets), or by the effect of a potion of healing (overworld mobs) or harm (nether mobs).")
-				.examples("on heal:")
+				.examples("on heal:", "\tevent-entity is player", "\tsend \"Nice try\"", "\tcancel event")
 				.since("1.0");
 		Skript.registerEvent("Tame", SimpleEvent.class, EntityTameEvent.class, "[entity] tam(e|ing)")
 				.description("Called when a player tames a wolf or ocelot. Can be cancelled to prevent the entity from being tamed.")
-				.examples("on tame:")
+				.examples("on tame:", "\tcancel event")
 				.since("1.0");
 		Skript.registerEvent("Explosion Prime", SimpleEvent.class, ExplosionPrimeEvent.class, "explosion prime")
 				.description("Called when an explosive is primed, i.e. an entity will explode shortly. Creepers can abort the explosion if the player gets too far away, " +
 						"while TNT will explode for sure after a short time.")
-				.examples("on explosion prime:")
+				.examples("on explosion prime:", "\tcancel event", "\tsend \"That was a close call...\" to the console")
 				.since("1.0");
 		Skript.registerEvent("Hunger Meter Change", SimpleEvent.class, FoodLevelChangeEvent.class, "(food|hunger) (level|met(er|re)|bar) chang(e|ing)")
 				.description("Called when the hunger bar of a player changes, i.e. either increases by eating or decreases over time.")
-				.examples("on food bar change:")
+				.examples("on food bar change:", "\tif player is op:", "\t\tcancel event")
 				.since("1.4.4");
 		Skript.registerEvent("Fuel Burn", SimpleEvent.class, FurnaceBurnEvent.class, "fuel burn[ing]")
 				.description("Called when a furnace burns an item from its <a href='expressions.html#ExprFurnaceSlot'>fuel slot</a>.")
-				.examples("on fuel burning:")
+				.examples("on fuel burning:", "broadcast \"Wow that smells good\"")
 				.since("1.0");
 		Skript.registerEvent("Smelt", SimpleEvent.class, FurnaceSmeltEvent.class, "[ore] smelt[ing]", "smelt[ing] of ore") //TODO SkriptEvent for "smelt[ing] of %itemtype%"
 		.description("Called when a furnace smelts an item in its <a href='expressions.html#ExprFurnaceSlot'>ore slot</a>.")
-				.examples("on smelt:")
+				.examples("on smelt:", "\tloop players in radius 3 around event-block:", "\t\tignite the loop-player for 1 second", "\t\tsend \"OUCH, don't go near the furnace, it's hot!\"")
 				.since("1.0");
 		Skript.registerEvent("Leaves Decay", SimpleEvent.class, LeavesDecayEvent.class, "leaves decay[ing]")
 				.description("Called when a leaf block decays due to not being connected to a tree.")
-				.examples("on leaves decay:")
+				.examples("on leaves decay:", "\tcancel event")
 				.since("1.0");
 		Skript.registerEvent("Lightning Strike", SimpleEvent.class, LightningStrikeEvent.class, "lightning [strike]")
 				.description("Called when lightning strikes.")
@@ -232,15 +232,15 @@ public class SimpleEvents {
 				.since("1.0");
 		Skript.registerEvent("Pig Zap", SimpleEvent.class, PigZapEvent.class, "pig[ ]zap")
 				.description("Called when a pig is stroke by lightning and transformed into a zombie pigman. Cancel the event to prevent the transformation.")
-				.examples("on pig zap:")
+				.examples("on pig zap:", "\tcancel event", "\tkill event-entity")
 				.since("1.0");
 		Skript.registerEvent("Bed Enter", SimpleEvent.class, PlayerBedEnterEvent.class, "bed enter[ing]", "[player] enter[ing] [a] bed")
 				.description("Called when a player starts sleeping.")
-				.examples("on bed enter:")
+				.examples("on bed enter:", "\tsend \"Good night!\"")
 				.since("1.0");
 		Skript.registerEvent("Bed Leave", SimpleEvent.class, PlayerBedLeaveEvent.class, "bed leav(e|ing)", "[player] leav(e|ing) [a] bed")
 				.description("Called when a player leaves a bed.")
-				.examples("on player leaving a bed:")
+				.examples("on player leaving a bed:", "\tsend \"See you again soon!\"")
 				.since("1.0");
 		Skript.registerEvent("Bucket Empty", SimpleEvent.class, PlayerBucketEmptyEvent.class, "bucket empty[ing]", "[player] empty[ing] [a] bucket")//TODO , "emptying bucket [of %itemtype%]", "emptying %itemtype% bucket") -> place of water/lava)
 		.description("Called when a player empties a bucket. You can also use the <a href='#place'>place event</a> with a check for water or lava.")
@@ -427,7 +427,7 @@ public class SimpleEvents {
 							"	cancel the event # bad idea, but you CAN do it!")
 					.since("2.2-dev21");
 			Skript.registerEvent("AoE Cloud Effect", SimpleEvent.class, AreaEffectCloudApplyEvent.class, "(area|AoE) [cloud] effect")
-					.description("Called when area effect cloud applies its potion effect. This happens every 5 ticks by default.")
+					.description("Called when an area cloud effect applies its potion effect. This happens every 5 ticks by default.")
 					.examples("on area cloud effect:")
 					.since("2.2-dev21");
 		}
@@ -537,7 +537,7 @@ public class SimpleEvents {
 				.since("2.5");
 		}
 		if (Skript.classExists("com.destroystokyo.paper.event.player.PlayerArmorChangeEvent")) {
-			Skript.registerEvent("Armor Change", SimpleEvent.class, PlayerArmorChangeEvent.class, "[player] armor change[d]")
+			Skript.registerEvent("Armor Change", SimpleEvent.class, PlayerArmorChangeEvent.class, "[player] armo[u]r change[d]")
 				.description("Called when armor pieces of a player are changed.")
 				.requiredPlugins("Paper")
 				.examples("on armor change:",
@@ -567,12 +567,12 @@ public class SimpleEvents {
 			"\tif the clicked button is enchantment option 1:",
 			"\t\tset the applied enchantments to sharpness 10 and unbreaking 10")
 		.since("2.5");
-		if(Skript.classExists("org.bukkit.event.block.BlockFertilizeEvent"))
+		if (Skript.classExists("org.bukkit.event.block.BlockFertilizeEvent"))
 			Skript.registerEvent("Block Fertilize", SimpleEvent.class, BlockFertilizeEvent.class, "[block] fertilize")
 			.description("Called when a player fertilizes blocks.")
 			.requiredPlugins("Minecraft 1.13 or newer")
 			.examples("on block fertilize:",
-				"\tsend \"Fertilized %size of fertilized blocks% blocks got fertilized.\"")
+				"\tsend \"Fertilized %size of fertilized blocks% blocks!\"")
 			.since("2.5");
 	}
 }
