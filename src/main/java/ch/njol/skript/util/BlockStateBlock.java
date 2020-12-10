@@ -14,7 +14,8 @@
  *  You should have received a copy of the GNU General Public License
  *  along with Skript.  If not, see <http://www.gnu.org/licenses/>.
  *
- * Copyright Peter Güttinger, SkriptLang team and contributors
+ *
+ * Copyright 2011-2017 Peter Güttinger and contributors
  */
 package ch.njol.skript.util;
 
@@ -444,10 +445,4 @@ public class BlockStateBlock implements Block {
 	public String getTranslationKey() {
 		return state.getBlock().getTranslationKey();
 	}
-	
-	@Override
-	public float getDestroySpeed(ItemStack itemStack) {
-		return state.getBlock().getDestroySpeed(itemStack);
-	}
-	
 }

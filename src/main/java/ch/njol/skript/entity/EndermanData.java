@@ -14,7 +14,8 @@
  *  You should have received a copy of the GNU General Public License
  *  along with Skript.  If not, see <http://www.gnu.org/licenses/>.
  *
- * Copyright Peter Güttinger, SkriptLang team and contributors
+ *
+ * Copyright 2011-2017 Peter Güttinger and contributors
  */
 package ch.njol.skript.entity;
 
@@ -53,12 +54,6 @@ public class EndermanData extends EntityData<Enderman> {
 	
 	@Nullable
 	private ItemType[] hand = null;
-	
-	public EndermanData() {}
-	
-	public EndermanData(@Nullable ItemType[] hand) {
-		this.hand = hand;
-	}
 	
 	@SuppressWarnings("unchecked")
 	@Override
@@ -200,7 +195,7 @@ public class EndermanData extends EntityData<Enderman> {
 	
 	@Override
 	public EntityData getSuperType() {
-		return new EndermanData(hand);
+		return new EndermanData();
 	}
 	
 }

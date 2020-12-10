@@ -14,7 +14,8 @@
  *  You should have received a copy of the GNU General Public License
  *  along with Skript.  If not, see <http://www.gnu.org/licenses/>.
  *
- * Copyright Peter Güttinger, SkriptLang team and contributors
+ *
+ * Copyright 2011-2017 Peter Güttinger and contributors
  */
 package ch.njol.skript.tests.runner;
 
@@ -39,7 +40,7 @@ import ch.njol.util.Kleenean;
 public class CondMinecraftVersion extends Condition {
 	
 	static {
-		Skript.registerCondition(CondMinecraftVersion.class, "running [(1¦below)] minecraft %string%");
+		Skript.registerCondition(CondMinecraftVersion.class, "running minecraft %string%");
 	}
 
 	@SuppressWarnings("null")
@@ -49,14 +50,13 @@ public class CondMinecraftVersion extends Condition {
 	@Override
 	public boolean init(Expression<?>[] exprs, int matchedPattern, Kleenean isDelayed, ParseResult parseResult) {
 		version = (Expression<String>) exprs[0];
-		setNegated(parseResult.mark == 1);
 		return true;
 	}
 	
 	@Override
 	public boolean check(Event e) {
 		String ver = version.getSingle(e);
-		return ver != null ? Skript.isRunningMinecraft(new Version(ver)) ^ isNegated() : false;
+		return ver != null ? Skript.isRunningMinecraft(new Version(ver)) : false;
 	}
 	
 	@Override

@@ -14,7 +14,8 @@
  *  You should have received a copy of the GNU General Public License
  *  along with Skript.  If not, see <http://www.gnu.org/licenses/>.
  *
- * Copyright Peter Güttinger, SkriptLang team and contributors
+ *
+ * Copyright 2011-2017 Peter Güttinger and contributors
  */
 package ch.njol.skript.lang;
 
@@ -592,7 +593,7 @@ public class Variable<T> implements Expression<T> {
 								assert c != null;
 								ci = Classes.getSuperClassInfo(c);
 								
-								if ((a = ci.getMath()) != null)
+								if (ci.getMath() != null)
 									o = d;
 								if (d instanceof Number) { // Nonexistent variable: add/subtract
 									if (mode == ChangeMode.REMOVE) // Variable is delta negated

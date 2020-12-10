@@ -14,7 +14,8 @@
  *  You should have received a copy of the GNU General Public License
  *  along with Skript.  If not, see <http://www.gnu.org/licenses/>.
  *
- * Copyright Peter Güttinger, SkriptLang team and contributors
+ *
+ * Copyright 2011-2017 Peter Güttinger and contributors
  */
 package ch.njol.skript.entity;
 
@@ -85,13 +86,6 @@ public class VillagerData extends EntityData<Villager> {
 	@Nullable
 	private Profession profession = null;
 	
-	public VillagerData() {}
-	
-	public VillagerData(@Nullable Profession profession) {
-		this.profession = profession;
-		this.matchedPattern = profession != null ? professions.indexOf(profession) + 1 : 0;
-	}
-	
 	@Override
 	protected boolean init(final Literal<?>[] exprs, final int matchedPattern, final ParseResult parseResult) {
 		if (matchedPattern > 0)
@@ -159,7 +153,7 @@ public class VillagerData extends EntityData<Villager> {
 	
 	@Override
 	public EntityData getSuperType() {
-		return new VillagerData(profession);
+		return new VillagerData();
 	}
 	
 }

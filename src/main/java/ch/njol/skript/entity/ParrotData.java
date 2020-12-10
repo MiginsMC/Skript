@@ -14,7 +14,8 @@
  *  You should have received a copy of the GNU General Public License
  *  along with Skript.  If not, see <http://www.gnu.org/licenses/>.
  *
- * Copyright Peter Güttinger, SkriptLang team and contributors
+ *
+ * Copyright 2011-2017 Peter Güttinger and contributors
  */
 package ch.njol.skript.entity;
 
@@ -47,13 +48,6 @@ public class ParrotData extends EntityData<Parrot> {
 	 * we just map enum values to int.
 	 */
 	private int variant;
-	
-	public ParrotData() {}
-	
-	public ParrotData(int variant) {
-		this.variant = variant;
-		super.matchedPattern = variant + 1;
-	}
 
 	@Override
 	protected boolean init(Literal<?>[] exprs, int matchedPattern, ParseResult parseResult) {
@@ -103,7 +97,7 @@ public class ParrotData extends EntityData<Parrot> {
 
 	@Override
 	public EntityData getSuperType() {
-		return new ParrotData(variant);
+		return new ParrotData();
 	}
 
 	@Override

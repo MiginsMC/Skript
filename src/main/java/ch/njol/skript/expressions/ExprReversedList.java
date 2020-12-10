@@ -14,7 +14,8 @@
  *  You should have received a copy of the GNU General Public License
  *  along with Skript.  If not, see <http://www.gnu.org/licenses/>.
  *
- * Copyright Peter Güttinger, SkriptLang team and contributors
+ *
+ * Copyright 2011-2017 Peter Güttinger and contributors
  */
 package ch.njol.skript.expressions;
 
@@ -41,42 +42,41 @@ import ch.njol.util.Kleenean;
 @Examples({"set {_list::*} to reversed {_list::*}"})
 @Since("2.4")
 public class ExprReversedList extends SimpleExpression<Object> {
-
+	
 	static {
 		Skript.registerExpression(ExprReversedList.class, Object.class, ExpressionType.COMBINED, "reversed %objects%");
 	}
-
+	
 	@SuppressWarnings("null")
-	private Expression<?> list;
-
+	private Expression<Object> list;
+	
+	@SuppressWarnings("unchecked")
 	@Override
-	@SuppressWarnings({"null", "unchecked"})
 	public boolean init(Expression<?>[] exprs, int matchedPattern, Kleenean isDelayed, SkriptParser.ParseResult parseResult) {
-		list = exprs[0].getConvertedExpression(Object.class);
-		return list != null;
+		list = (Expression<Object>) exprs[0];
+		return true;
 	}
-
-	@Override
+	
 	@Nullable
+	@Override
 	protected Object[] get(Event e) {
 		List<Object> reversed = Arrays.asList(list.getAll(e).clone());
 		Collections.reverse(reversed);
 		return reversed.toArray();
 	}
-
+	
 	@Override
 	public boolean isSingle() {
 		return false;
 	}
-
+	
 	@Override
 	public Class<?> getReturnType() {
 		return Object.class;
 	}
-
+	
 	@Override
 	public String toString(@Nullable Event e, boolean debug) {
-		return "reversed " + list.toString(e, debug);
+		return "reversed list";
 	}
-
 }
