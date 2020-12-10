@@ -14,7 +14,8 @@
  *  You should have received a copy of the GNU General Public License
  *  along with Skript.  If not, see <http://www.gnu.org/licenses/>.
  *
- * Copyright Peter Güttinger, SkriptLang team and contributors
+ *
+ * Copyright 2011-2017 Peter Güttinger and contributors
  */
 package ch.njol.skript.events;
 
@@ -22,7 +23,6 @@ import java.util.Locale;
 
 import org.bukkit.Material;
 import org.bukkit.entity.Enderman;
-import org.bukkit.entity.FallingBlock;
 import org.bukkit.entity.Sheep;
 import org.bukkit.entity.Silverfish;
 import org.bukkit.event.Event;
@@ -43,16 +43,12 @@ import ch.njol.util.Checker;
 public class EvtEntityBlockChange extends SkriptEvent {
 	
 	static {
-		Skript.registerEvent("Enderman/Sheep/Silverfish/Falling Block", EvtEntityBlockChange.class, EntityChangeBlockEvent.class, ChangeEvent.patterns)
-				.description("Called when an enderman places or picks up a block, a sheep eats grass, ",
-						"a silverfish boops into/out of a block or a falling block lands and turns into a block respectively.")
+		Skript.registerEvent("Enderman/Sheep/Silverfish", EvtEntityBlockChange.class, EntityChangeBlockEvent.class, ChangeEvent.patterns)
+				.description("Called when an enderman places or picks up a block, a sheep eats grass or a silverfish boops into/out of a block respectively.")
 				.examples("on sheep eat:",
 						"\tkill entity",
-						"\tbroadcast \"A sheep stole some grass!\"",
-						"on falling block land:",
-						"\tif event-entity is a falling dirt:",
-						"\t\tcancel event")
-				.since("<i>unknown</i>, 2.5.2 (falling block)");
+						"\tbroadcast \"A sheep stole some grass!\"")
+				.since("<i>unknown</i>");
 	}
 	
 	static final ItemType monsterEgg = Aliases.javaItemType("any spawn egg");
@@ -86,12 +82,6 @@ public class EvtEntityBlockChange extends SkriptEvent {
 			@Override
 			public boolean check(final EntityChangeBlockEvent e) {
 				return e.getEntity() instanceof Silverfish && e.getTo() != monsterEgg.getMaterial();
-			}
-		}),
-		FALLING_BLOCK_LANDING("falling block land[ing]", new Checker<EntityChangeBlockEvent>() {
-			@Override
-			public boolean check(EntityChangeBlockEvent e) {
-				return e.getEntity() instanceof FallingBlock;
 			}
 		});
 		

@@ -14,7 +14,8 @@
  *  You should have received a copy of the GNU General Public License
  *  along with Skript.  If not, see <http://www.gnu.org/licenses/>.
  *
- * Copyright Peter Güttinger, SkriptLang team and contributors
+ *
+ * Copyright 2011-2017 Peter Güttinger and contributors
  */
 package ch.njol.skript.effects;
 
@@ -35,13 +36,8 @@ import ch.njol.skript.doc.Since;
 import ch.njol.skript.lang.Effect;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser.ParseResult;
-import ch.njol.skript.lang.Trigger;
-import ch.njol.skript.lang.TriggerItem;
-import ch.njol.skript.timings.SkriptTimings;
 import ch.njol.skript.util.Direction;
-import ch.njol.skript.variables.Variables;
 import ch.njol.util.Kleenean;
-import io.papermc.lib.PaperLib;
 
 @Name("Teleport")
 @Description("Teleport an entity to a specific location.")
@@ -66,73 +62,28 @@ public class EffTeleport extends Effect {
 		location = Direction.combine((Expression<? extends Direction>) exprs[1], (Expression<? extends Location>) exprs[2]);
 		return true;
 	}
-	
-	@Nullable
+
 	@Override
-	protected TriggerItem walk(Event e) {
-		debug(e, true);
-		TriggerItem next = getNext();
-		boolean delayed = Delay.isDelayed(e);
-		Delay.addDelayedEvent(e);
-		
-		final Location loc = location.getSingle(e);
-		final Entity[] entityArray = entities.getArray(e); // We have to fetch this before possible async execution to avoid async local variable access.
-		final boolean respawnEvent = !delayed && e instanceof PlayerRespawnEvent && entityArray.length == 1 && entityArray[0].equals(((PlayerRespawnEvent) e).getPlayer());
-		
-		if (respawnEvent && loc != null) {
-			((PlayerRespawnEvent) e).setRespawnLocation(getSafeLocation(loc));
-		}
-		
-		if (respawnEvent || loc == null) {
-			continueWalk(next, e);
-			return null;
-		}
-		
-		//This will either fetch the chunk instantly if on spigot or already loaded or fetch it async if on paper.
-		PaperLib.getChunkAtAsync(loc).thenAccept(chunk -> {
-			// The following is now on the main thread
-			for (final Entity entity : entityArray) {
-				entity.teleport(getSafeLocation(loc));
-			}
-			
-			// Continue the rest of the trigger if there is one
-			continueWalk(next, e);
-		});
-		return null;
-	}
-	
-	private void continueWalk(@Nullable TriggerItem next, Event e) {
-		Object timing = null;
-		if (next != null) {
-			if (SkriptTimings.enabled()) {
-				Trigger trigger = getTrigger();
-				if (trigger != null) {
-					timing = SkriptTimings.start(trigger.getDebugLabel());
-				}
-			}
-			
-			TriggerItem.walk(next, e);
-		}
-		Variables.removeLocals(e); // Clean up local vars, we may be exiting now
-		SkriptTimings.stop(timing);
-	}
-	
-	private Location getSafeLocation(Location loc) {
-		Location toLoc = loc;
-		if (Math.abs(toLoc.getX() - toLoc.getBlockX() - 0.5) < Skript.EPSILON && Math.abs(toLoc.getZ() - toLoc.getBlockZ() - 0.5) < Skript.EPSILON) {
-			final Block on = toLoc.getBlock().getRelative(BlockFace.DOWN);
+	protected void execute(final Event e) {
+		Location to = location.getSingle(e);
+		if (to == null)
+			return;
+		if (Math.abs(to.getX() - to.getBlockX() - 0.5) < Skript.EPSILON && Math.abs(to.getZ() - to.getBlockZ() - 0.5) < Skript.EPSILON) {
+			final Block on = to.getBlock().getRelative(BlockFace.DOWN);
 			if (on.getType() != Material.AIR) {
-				toLoc = toLoc.clone();
+				to = to.clone();
 				// TODO 1.13 block height stuff
 				//to.setY(on.getY() + Utils.getBlockHeight(on.getTypeId(), on.getData()));
 			}
 		}
-		return toLoc;
-	}
-	
-	@Override
-	protected void execute(final Event e) {
-		// Nothing needs to happen here, we're executing in walk
+		for (final Entity entity : entities.getArray(e)) {
+			to.getChunk().load();
+			if (e instanceof PlayerRespawnEvent && entity.equals(((PlayerRespawnEvent) e).getPlayer()) && !Delay.isDelayed(e)) {
+				((PlayerRespawnEvent) e).setRespawnLocation(to);
+			} else {
+				entity.teleport(to);
+			}
+		}
 	}
 
 	@Override

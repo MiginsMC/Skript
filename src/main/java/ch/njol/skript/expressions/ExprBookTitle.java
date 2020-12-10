@@ -14,20 +14,22 @@
  *  You should have received a copy of the GNU General Public License
  *  along with Skript.  If not, see <http://www.gnu.org/licenses/>.
  *
- * Copyright Peter Güttinger, SkriptLang team and contributors
+ *
+ * Copyright 2011-2017 Peter Güttinger and contributors
  */
 package ch.njol.skript.expressions;
 
+import ch.njol.skript.aliases.Aliases;
 import ch.njol.skript.aliases.ItemType;
-import ch.njol.skript.classes.Changer.ChangeMode;
+import ch.njol.skript.classes.Changer;
 import ch.njol.skript.doc.Description;
 import ch.njol.skript.doc.Examples;
 import ch.njol.skript.doc.Name;
 import ch.njol.skript.doc.Since;
 import ch.njol.skript.expressions.base.SimplePropertyExpression;
 import org.bukkit.event.Event;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BookMeta;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.eclipse.jdt.annotation.Nullable;
 
 @Name("Book Title")
@@ -41,39 +43,21 @@ public class ExprBookTitle extends SimplePropertyExpression<ItemType, String> {
 		register(ExprBookTitle.class, String.class, "book (name|title)", "itemtypes");
 	}
 	
+	private static final ItemType book = Aliases.javaItemType("book with text");
+	
+	@Override
+	protected String getPropertyName() {
+		return "title";
+	}
+	
 	@Nullable
 	@Override
 	public String convert(ItemType item) {
-		ItemMeta meta = item.getItemMeta();
-		
-		if (meta instanceof BookMeta)
-			return ((BookMeta) meta).getTitle();
-		
-		return null;
-	}
-	
-	@Nullable
-	@Override
-	public Class<?>[] acceptChange(ChangeMode mode) {
-		if (mode == ChangeMode.SET || mode == ChangeMode.RESET || mode == ChangeMode.DELETE){
-			return new Class<?>[]{String.class};
-		}
-		return null;
-	}
-	
-	@SuppressWarnings("null")
-	@Override
-	public void change(Event e, @Nullable Object[] delta, ChangeMode mode) {
-		String title = delta == null ? null : (String) delta[0];
-		
-		for (ItemType item : getExpr().getArray(e)) {
-			ItemMeta meta = item.getItemMeta();
-			
-			if (meta instanceof BookMeta) {
-				((BookMeta) meta).setTitle(title);
-				item.setItemMeta(meta);
-			}
-		}
+		ItemStack itemStack = item.getRandom();
+		assert itemStack != null;
+		if (!book.isOfType(itemStack))
+			return null;
+		return ((BookMeta) itemStack.getItemMeta()).getTitle();
 	}
 	
 	@Override
@@ -81,9 +65,34 @@ public class ExprBookTitle extends SimplePropertyExpression<ItemType, String> {
 		return String.class;
 	}
 	
+	@Nullable
 	@Override
-	protected String getPropertyName() {
-		return "book title";
+	public Class<?>[] acceptChange(Changer.ChangeMode mode) {
+		if (mode == Changer.ChangeMode.SET || mode == Changer.ChangeMode.RESET || mode == Changer.ChangeMode.DELETE){
+			return new Class<?>[]{String.class};
+		}
+		return null;
 	}
 	
+	@SuppressWarnings("null")
+	@Override
+	public void change(Event e, @Nullable Object[] delta, Changer.ChangeMode mode) {
+		ItemStack itemStack = getExpr().getSingle(e).getRandom();
+		if (itemStack == null || !book.isOfType(itemStack))
+			return;
+		BookMeta bookMeta = (BookMeta) itemStack.getItemMeta();
+		switch (mode){
+			case SET:
+				bookMeta.setTitle(delta == null ? "" : (String) delta[0]);
+				break;
+			case RESET:
+			case DELETE:
+				bookMeta.setTitle("");
+				break;
+				//$CASES-OMITTED$
+			default:
+				assert false;
+		}
+		itemStack.setItemMeta(bookMeta);
+	}
 }

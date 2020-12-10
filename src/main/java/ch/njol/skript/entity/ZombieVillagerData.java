@@ -14,7 +14,8 @@
  *  You should have received a copy of the GNU General Public License
  *  along with Skript.  If not, see <http://www.gnu.org/licenses/>.
  *
- * Copyright Peter Güttinger, SkriptLang team and contributors
+ *
+ * Copyright 2011-2017 Peter Güttinger and contributors
  */
 package ch.njol.skript.entity;
 
@@ -35,13 +36,11 @@ public class ZombieVillagerData extends EntityData<ZombieVillager> {
 	private final static Villager.Profession[] professions = Villager.Profession.values();
 	
 	static {
-		if (PROFESSION_UPDATE)
-			EntityData.register(ZombieVillagerData.class, "zombie villager", ZombieVillager.class, 0,
-				"zombie villager", "zombie armorer", "zombie butcher", "zombie cartographer", "zombie cleric", "zombie farmer", "zombie fisherman",
-				"zombie fletcher", "zombie leatherworker", "zombie librarian", "zombie mason", "zombie nitwit", "zombie shepherd", "zombie toolsmith", "zombie weaponsmith");
-		else if (villagerSupport)
+		if (villagerSupport)
 			EntityData.register(ZombieVillagerData.class, "zombie villager", ZombieVillager.class, 0,
 					"zombie villager", "zombie farmer", "zombie librarian", "zombie priest", "zombie blacksmith", "zombie butcher", "zombie nitwit");
+		
+		
 	}
 	
 	private Villager.Profession profession = PROFESSION_UPDATE ? Profession.NONE : Profession.valueOf("NORMAL");
@@ -50,7 +49,6 @@ public class ZombieVillagerData extends EntityData<ZombieVillager> {
 	
 	public ZombieVillagerData(Profession prof) {
 		profession = prof;
-		super.matchedPattern = prof.ordinal();
 	}
 
 	@SuppressWarnings("null")
@@ -85,7 +83,7 @@ public class ZombieVillagerData extends EntityData<ZombieVillager> {
 	@SuppressWarnings("null")
 	@Override
 	public void set(final ZombieVillager e) {
-		e.setVillagerProfession(profession);
+		profession = e.getVillagerProfession();
 	}
 	
 	@Override

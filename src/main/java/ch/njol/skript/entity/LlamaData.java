@@ -14,7 +14,8 @@
  *  You should have received a copy of the GNU General Public License
  *  along with Skript.  If not, see <http://www.gnu.org/licenses/>.
  *
- * Copyright Peter Güttinger, SkriptLang team and contributors
+ *
+ * Copyright 2011-2017 Peter Güttinger and contributors
  */
 package ch.njol.skript.entity;
 
@@ -46,14 +47,6 @@ public class LlamaData extends EntityData<Llama> {
 	private Color color = null;
 	private boolean isTrader;
 	
-	public LlamaData() {}
-	
-	public LlamaData(@Nullable Color color, boolean isTrader) {
-		this.color = color;
-		this.isTrader = isTrader;
-		super.matchedPattern = (color != null ? (color.ordinal() + 1) : 0) + (isTrader ? 5 : 0);
-	}
-	
 	@Override
 	protected boolean init(Literal<?>[] exprs, int matchedPattern, ParseResult parseResult) {
 		isTrader = TRADER_SUPPORT && matchedPattern > 4;
@@ -70,10 +63,8 @@ public class LlamaData extends EntityData<Llama> {
 	protected boolean init(@Nullable Class<? extends Llama> c, @Nullable Llama llama) {
 		if (TRADER_SUPPORT && c != null)
 			isTrader = c.isAssignableFrom(TraderLlama.class);
-		if (llama != null) {
+		if (llama != null)
 			color = llama.getColor();
-			isTrader = TRADER_SUPPORT && llama instanceof TraderLlama;
-		}
 		return true;
 	}
 	
@@ -102,7 +93,7 @@ public class LlamaData extends EntityData<Llama> {
 	
 	@Override
 	public EntityData getSuperType() {
-		return new LlamaData(color, isTrader);
+		return new LlamaData();
 	}
 	
 	@Override

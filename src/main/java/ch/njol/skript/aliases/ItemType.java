@@ -14,7 +14,8 @@
  *  You should have received a copy of the GNU General Public License
  *  along with Skript.  If not, see <http://www.gnu.org/licenses/>.
  *
- * Copyright Peter Güttinger, SkriptLang team and contributors
+ *
+ * Copyright 2011-2017 Peter Güttinger and contributors
  */
 package ch.njol.skript.aliases;
 
@@ -34,12 +35,10 @@ import java.util.Random;
 import java.util.RandomAccess;
 import java.util.Set;
 
-import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
@@ -360,23 +359,6 @@ public class ItemType implements Unit, Iterable<ItemData>, Container<ItemStack>,
 				return true;
 		}
 		return false;
-	}
-	
-	/**
-	 * Send a block change to a player
-	 * <p>This will send a fake block change to the player, and will not change the block on the server.</p>
-	 *
-	 * @param player Player to send change to
-	 * @param location Location of block to change
-	 */
-	public void sendBlockChange(Player player, Location location) {
-		for (int i = random.nextInt(types.size()); i < types.size(); i++) {
-			ItemData d = types.get(i);
-			Material blockType = ItemUtils.asBlock(d.type);
-			if (blockType == null) // Ignore items which cannot be placed
-				continue;
-			BlockUtils.sendBlockChange(player, location, blockType, d.getBlockValues());
-		}
 	}
 	
 	/**
@@ -761,14 +743,12 @@ public class ItemType implements Unit, Iterable<ItemData>, Container<ItemStack>,
 					 * it to return true for two "same items", even if their
 					 * item meta is completely different.
 					 */
-					ItemData other = is != null ? new ItemData(is) : null;
-					if (other != null && other.matchAlias(d).isAtLeast(((d.isAlias()) && !other.isAlias()) ? MatchQuality.SAME_MATERIAL : MatchQuality.EXACT)) {
+					if (is != null && d.matchAlias(new ItemData(is)).isAtLeast(MatchQuality.EXACT)) {
 						if (all && amount == -1) {
 							list.set(i, null);
 							removed = 1;
 							continue;
 						}
-						assert is != null;
 						final int toRemove = Math.min(is.getAmount(), getAmount() - removed);
 						removed += toRemove;
 						if (toRemove == is.getAmount()) {

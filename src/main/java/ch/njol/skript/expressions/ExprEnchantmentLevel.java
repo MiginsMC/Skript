@@ -14,7 +14,8 @@
  *  You should have received a copy of the GNU General Public License
  *  along with Skript.  If not, see <http://www.gnu.org/licenses/>.
  *
- * Copyright Peter Güttinger, SkriptLang team and contributors
+ *
+ * Copyright 2011-2017 Peter Güttinger and contributors
  */
 package ch.njol.skript.expressions;
 
@@ -129,7 +130,7 @@ public class ExprEnchantmentLevel extends SimpleExpression<Integer> {
 					changed = Math.max(0, enchant.getLevel() - changed);
 				
 				if (changed > 0)
-					item.addEnchantments(new EnchantmentType(type, changed));
+					item.addEnchantments(new EnchantmentType(type, newLevel));
 			}
 		}
 	}

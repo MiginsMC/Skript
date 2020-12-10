@@ -14,7 +14,8 @@
  *  You should have received a copy of the GNU General Public License
  *  along with Skript.  If not, see <http://www.gnu.org/licenses/>.
  *
- * Copyright Peter Güttinger, SkriptLang team and contributors
+ *
+ * Copyright 2011-2017 Peter Güttinger and contributors
  */
 package ch.njol.skript.entity;
 
@@ -36,13 +37,6 @@ public class FoxData extends EntityData<Fox> {
 	
 	@Nullable
 	private Type type = null;
-	
-	public FoxData() {}
-	
-	public FoxData(@Nullable Type type) {
-		this.type = type;
-		super.matchedPattern = type == Type.SNOW ? 2 : 1;
-	}
 	
 	@Override
 	protected boolean init(Literal<?>[] exprs, int matchedPattern, ParseResult parseResult) {
@@ -76,7 +70,7 @@ public class FoxData extends EntityData<Fox> {
 	
 	@Override
 	public EntityData getSuperType() {
-		return new FoxData(type);
+		return new FoxData();
 	}
 	
 	@Override
