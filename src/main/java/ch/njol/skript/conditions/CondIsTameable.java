@@ -29,7 +29,7 @@ import ch.njol.skript.doc.Name;
 import ch.njol.skript.doc.Since;
 
 @Name("Is Tameable")
-@Description("Check if an entity is tameable.")
+@Description("Check whether an entity is tameable.")
 @Examples({"on damage:",
 	"\tif victim is tameable:",
 	"\t\tcancel event"})

@@ -36,7 +36,7 @@ public class EvtEntityTarget extends SkriptEvent {
 		Skript.registerEvent("Target", EvtEntityTarget.class, EntityTargetEvent.class, "[entity] target", "[entity] un[-]target")
 				.description("Called when a mob starts/stops following/attacking another entity, usually a player.")
 				.examples("on entity target:",
-						"\ttarget is a player")
+						"\ttarget is a player", "\tcancel event")
 				.since("1.0");
 	}
 	

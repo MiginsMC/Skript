@@ -39,7 +39,7 @@ import ch.njol.util.Kleenean;
  * @author Peter Güttinger
  */
 @Name("Has Permission")
-@Description("Test whether a player has a certain permission.")
+@Description("Checks whether a player has a certain permission.")
 @Examples({"player has permission \"skript.tree\"",
 		"victim has the permission \"admin\":",
 		"	send \"You're attacking an admin!\" to attacker"})

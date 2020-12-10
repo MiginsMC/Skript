@@ -33,7 +33,7 @@ import ch.njol.skript.lang.SkriptParser;
 import ch.njol.util.Kleenean;
 
 @Name("Starts/Ends With")
-@Description("Checks if a text starts or ends with another.")
+@Description("Checks whether a text starts or ends with another.")
 @Examples({"if the argument starts with \"test\":",
 		"	send \"Stop!\""})
 @Since("2.2-dev36")

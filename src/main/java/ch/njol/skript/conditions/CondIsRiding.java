@@ -39,7 +39,7 @@ import ch.njol.util.Kleenean;
  * @author Peter Güttinger
  */
 @Name("Is Riding")
-@Description("Tests whether an entity is riding another or is in a vehicle.")
+@Description("Checks whether an entity is riding another or is in a vehicle.")
 @Examples({"player is riding a saddled pig"})
 @Since("2.0")
 public class CondIsRiding extends Condition {

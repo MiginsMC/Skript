@@ -35,7 +35,7 @@ import ch.njol.skript.lang.SkriptParser.ParseResult;
 import ch.njol.util.Kleenean;
 
 @Name("Is Block Redstone Powered")
-@Description("Checks if a block is indirectly or directly powered by redstone")
+@Description("Checks whether a block is indirectly or directly powered by redstone.")
 @Examples({"if clicked block is redstone powered:",
 	"\tsend \"This block is well-powered by redstone!\"",
 	"if clicked block is indirectly redstone powered:",
